@@ -7,10 +7,10 @@
 # tensorboard
 tensorbaord/
 weights/
-*.csv
-*/*.csv
+#*.csv
+#*/*.csv
 *.caffemodel
-*.save
+#*.save
 *.mat
 
 # Files for the ART/Dalvik VM
