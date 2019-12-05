@@ -17,7 +17,7 @@ for file in os.listdir('../data'):
 print(complete_df.reset_index().isna().sum())
 complete_df['label'] = complete_df['label'].apply(lambda x: int(x))
 
-complete_df.reset_index().to_csv('../data/complete.csv')
+complete_df.to_csv('../data/complete.csv', index=False)
 
 frequency = {'joy':0, 'trust':0, 'fear':0, 'surprise':0, 'sadness':0, 'disgust':0, 'anger':0, 'anticipation':0, 'neutral':0}
 emotions = {0:'joy', 1:'trust', 2:'fear', 3:'surprise', 4:'sadness', 5:'disgust', 6:'anger', 7:'anticipation', 8:'neutral'}
@@ -32,8 +32,22 @@ for index, row in complete_df.iterrows():
         frequency[emotion] = 1
 print(frequency)
 
-plt.bar(range(len(frequency)), frequency.values(), align='center')
-plt.xticks(range(len(frequency)), list(frequency.keys()))
-plt.title('classes')
-plt.show()
+# plt.bar(range(len(frequency)), frequency.values(), align='center')
+# plt.xticks(range(len(frequency)), list(frequency.keys()))
+# plt.title('classes')
+# plt.show()
 
+texts = complete_df['sentence'].values
+from keras.preprocessing.text import Tokenizer
+import numpy as np
+t = Tokenizer(num_words=10000)
+t.fit_on_texts(texts)
+sequences = t.texts_to_sequences(texts)
+
+lengths = [len(text) for text in sequences]
+print(np.max(lengths))
+print(np.min(lengths))
+print(np.mean(lengths))
+plt.hist(lengths)
+plt.title('lengths')
+plt.show()

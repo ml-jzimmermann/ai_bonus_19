@@ -9,8 +9,13 @@ verify_ssl = true
 numpy = "*"
 pandas = "*"
 matplotlib = "*"
-tensorflow = "==1.15.0"
-keras = "*"
+tensorflow = "==1.14.0"
+keras = "==2.2.4"
+ktrain = "*"
+seaborn = "*"
+flair = "*"
+allennlp = "*"
+pydot = "*"
 
 [requires]
 python_version = "3.7"
