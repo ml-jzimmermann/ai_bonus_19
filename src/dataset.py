@@ -32,10 +32,12 @@ for index, row in complete_df.iterrows():
         frequency[emotion] = 1
 print(frequency)
 
-# plt.bar(range(len(frequency)), frequency.values(), align='center')
-# plt.xticks(range(len(frequency)), list(frequency.keys()))
-# plt.title('classes')
-# plt.show()
+exit()
+
+plt.bar(range(len(frequency)), frequency.values(), align='center')
+plt.xticks(range(len(frequency)), list(frequency.keys()))
+plt.title('classes')
+plt.show()
 
 texts = complete_df['sentence'].values
 from keras.preprocessing.text import Tokenizer
