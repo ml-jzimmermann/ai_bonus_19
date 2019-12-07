@@ -7,7 +7,7 @@ texts = input['sentence'].values
 labels = input['label'].values
 
 # preprocessing text
-# stoplist
+stop_list = ['the to and i a of that is in you for it have he my with was are on but be this so not']
 
 # tokenization
 from keras.preprocessing.text import Tokenizer
@@ -19,6 +19,7 @@ tokenizer.fit_on_texts(texts)
 sequences = tokenizer.texts_to_sequences(texts)
 sequences = pad_sequences(sequences, maxlen=max_length, padding='pre', value=0.0)
 sequences = np.array(sequences)
+print(len(tokenizer.word_index))
 print(sequences.shape)
 
 # preprocessing labels
@@ -57,15 +58,17 @@ input_1 = Input(shape=(max_length,))
 embed_1 = Embedding(input_dim=(max_words - 1), output_dim=features, input_length=max_length)(input_1)
 bi_lstm_1 = Bidirectional(LSTM(units=32, activation='tanh', dropout=0.2, return_sequences=True))(embed_1)
 bi_lstm_2 = Bidirectional(LSTM(units=32, activation='tanh', dropout=0.2, return_sequences=True))(bi_lstm_1)
-bi_lstm_3 = Bidirectional(LSTM(units=32, activation='tanh', dropout=0.2, return_sequences=False))(bi_lstm_2)
+bi_lstm_3 = Bidirectional(LSTM(units=16, activation='tanh', dropout=0.2, return_sequences=False))(bi_lstm_2)
 softmax_1 = Dense(units=classes, activation='softmax')(bi_lstm_3)
 
 model = Model(inputs=input_1, outputs=softmax_1)
 model.compile(loss='categorical_crossentropy', optimizer='rmsprop', metrics=['accuracy'])
 
+print(model.summary())
+
 # show model
-from keras.utils.vis_utils import plot_model
-plot_model(model, to_file='../images/model_plot_lstm.png', show_shapes=True, show_layer_names=True)
+# from keras.utils.vis_utils import plot_model
+# plot_model(model, to_file='../images/model_plot_lstm.png', show_shapes=True, show_layer_names=True)
 
 # training
 model.fit(x=x_train, y=y_train, validation_data=(x_val, y_val), batch_size=16, epochs=20, class_weight=class_weight_dict)

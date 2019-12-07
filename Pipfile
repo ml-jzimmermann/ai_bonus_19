@@ -16,6 +16,7 @@ seaborn = "*"
 flair = "*"
 allennlp = "*"
 pydot = "*"
+sklearn = "*"
 
 [requires]
 python_version = "3.7"

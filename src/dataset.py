@@ -32,19 +32,24 @@ for index, row in complete_df.iterrows():
         frequency[emotion] = 1
 print(frequency)
 
-exit()
 
-plt.bar(range(len(frequency)), frequency.values(), align='center')
-plt.xticks(range(len(frequency)), list(frequency.keys()))
-plt.title('classes')
-plt.show()
+# plt.bar(range(len(frequency)), frequency.values(), align='center')
+# plt.xticks(range(len(frequency)), list(frequency.keys()))
+# plt.title('classes')
+# plt.show()
 
 texts = complete_df['sentence'].values
 from keras.preprocessing.text import Tokenizer
 import numpy as np
-t = Tokenizer(num_words=10000)
+t = Tokenizer(num_words=100000)
 t.fit_on_texts(texts)
+print(texts[42])
 sequences = t.texts_to_sequences(texts)
+print(sequences[42])
+most_frequent = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55]
+most_frequent = t.sequences_to_texts([most_frequent])
+print(most_frequent)
+
 
 lengths = [len(text) for text in sequences]
 print(np.max(lengths))
