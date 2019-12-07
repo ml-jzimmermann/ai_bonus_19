@@ -6,6 +6,7 @@ prediction = predictor.predict('i am feeling very good today i am very happy abo
 print(prediction)
 
 
+
 # # show model
 # from keras.utils.vis_utils import plot_model
 # plot_model(learner.model, to_file='../images/model_plot_bert.png', show_shapes=True, show_layer_names=True)

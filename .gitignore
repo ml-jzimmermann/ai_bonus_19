@@ -11,6 +11,7 @@ weights/
 #*/*.csv
 *.caffemodel
 *.save
+*.preproc
 *.mat
 
 # Files for the ART/Dalvik VM

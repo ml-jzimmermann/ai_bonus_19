@@ -1,7 +1,10 @@
+import os
+os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"
+os.environ["CUDA_VISIBLE_DEVICES"] = "0"
+
 import ktrain.text as text
 import ktrain
 import pandas as pd
-
 
 input = pd.read_csv('../data/complete.csv')
 
@@ -13,8 +16,8 @@ model = text.text_classifier(name='bert', train_data=(x_train, y_train), preproc
 
 learner = ktrain.get_learner(model=model, train_data=(x_train, y_train), val_data=(x_test, y_test), batch_size=16)
 
-learner.fit_onecycle(lr=2e-5, epochs=10)
+learner.fit_onecycle(lr=2e-5, epochs=25)
 
-learner.save_model('models/bert.learner.10.save')
-predictor = ktrain.get_predictor(model=learner.model, preproc=preprocessing)
-predictor.save('models/bert.predictor.10.save')
+# learner.save_model('models/bert.learner.25.3.save')
+# predictor = ktrain.get_predictor(model=learner.model, preproc=preprocessing)
+# predictor.save('models/bert.predictor.25.3.save')
