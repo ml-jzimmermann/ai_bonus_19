@@ -1,10 +1,11 @@
 import ktrain
 
-
-predictor = ktrain.load_predictor('models/bert.predictor.10.save')
-prediction = predictor.predict('i am feeling very good today i am very happy about checkra1n on my ipad')
+doc = 'i am feeling very good today i am very happy about checkra1n on my ipad'
+predictor = ktrain.load_predictor('models/bert.predictor.save')
+prediction = predictor.predict(doc)
 print(prediction)
 
+predictor.explain(doc)
 
 
 # # show model

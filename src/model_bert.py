@@ -16,8 +16,8 @@ model = text.text_classifier(name='bert', train_data=(x_train, y_train), preproc
 
 learner = ktrain.get_learner(model=model, train_data=(x_train, y_train), val_data=(x_test, y_test), batch_size=16)
 
-learner.fit_onecycle(lr=2e-5, epochs=25)
+learner.fit_onecycle(lr=2e-5, epochs=5)
 
-# learner.save_model('models/bert.learner.25.3.save')
-# predictor = ktrain.get_predictor(model=learner.model, preproc=preprocessing)
-# predictor.save('models/bert.predictor.25.3.save')
+learner.save_model('models/bert.learner.5.save')
+predictor = ktrain.get_predictor(model=learner.model, preproc=preprocessing)
+predictor.save('models/bert.predictor.5.save')
