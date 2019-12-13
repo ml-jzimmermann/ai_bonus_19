@@ -65,29 +65,32 @@ features = 200
 input_1 = Input(shape=(max_length,))
 embed_1 = Embedding(input_dim=(max_words - 1), output_dim=features, input_length=max_length)(input_1)
 bi_lstm_1 = Bidirectional(LSTM(units=64, activation='tanh', dropout=0.2, return_sequences=True))(embed_1)
-b_norm_1 = BatchNormalization()(bi_lstm_1)
+attention_1 = Attention()([bi_lstm_1, bi_lstm_1, bi_lstm_1])
+b_norm_1 = BatchNormalization()(attention_1)
+# multipy_1 = Multiply()([b_norm_1, attention_1])
 bi_lstm_2 = Bidirectional(LSTM(units=64, activation='tanh', dropout=0.2, return_sequences=True))(b_norm_1)
-# add_1 = Multiply()([b_norm_1, bi_lstm_2])
-b_norm_2 = BatchNormalization()(bi_lstm_2)
+attention_2 = Attention()([bi_lstm_2, bi_lstm_2, bi_lstm_2])
+b_norm_2 = BatchNormalization()(attention_2)
+# multipy_2 = Multiply()([b_norm_2, attention_2])
 bi_lstm_3 = Bidirectional(LSTM(units=64, activation='tanh', dropout=0.2, return_sequences=True))(b_norm_2)
-add_2 = Multiply()([bi_lstm_1, bi_lstm_2, bi_lstm_3, b_norm_2])
-# attention_1 = Attention()([bi_lstm_3, bi_lstm_1])
-b_norm_3 = BatchNormalization()(add_2)
+attention_3 = Attention()([bi_lstm_3, bi_lstm_3, bi_lstm_3])
+b_norm_3 = BatchNormalization()(attention_3)
+# multipy_3 = Multiply()([b_norm_3, attention_3])
 flat_1 = Flatten()(b_norm_3)
 dense_1 = Dense(units=24, activation='sigmoid')(flat_1)
 softmax_1 = Dense(units=classes, activation='softmax')(dense_1)
 
 model = Model(inputs=input_1, outputs=softmax_1)
-model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
+model.compile(loss='categorical_crossentropy', optimizer='rmsprop', metrics=['accuracy'])
 
 print(model.summary())
 
 # show model
-# from tensorflow.keras.utils import plot_model
-# plot_model(model, to_file='../images/model_plot_lstm_norm_multi.png', show_shapes=True, show_layer_names=True)
+from tensorflow.keras.utils import plot_model
+plot_model(model, to_file='../images/model_plot_lstm_norm_multi_attention_2.png', show_shapes=True, show_layer_names=True)
 
 # training
-model.fit(x=x_train, y=y_train, validation_data=(x_val, y_val), batch_size=16, epochs=20, class_weight=class_weight_dict)
+model.fit(x=x_train, y=y_train, validation_data=(x_val, y_val), batch_size=16, epochs=100, class_weight=class_weight_dict)
 
 # explain predictions
 # import seaborn as sn
