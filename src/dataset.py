@@ -7,6 +7,7 @@ root = '../data/'
 complete_df = pd.DataFrame()
 for file in os.listdir('../data'):
     if '.csv' in file and 'sentences_' in file:
+        print(file)
         csv = pd.read_csv(root + file)[['sentence', 'label']]
         csv = csv.dropna(axis=0)
         if len(complete_df) == 0:

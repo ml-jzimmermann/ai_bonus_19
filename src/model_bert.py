@@ -6,18 +6,19 @@ import ktrain.text as text
 import ktrain
 import pandas as pd
 
-input = pd.read_csv('../data/complete.csv')
+for index_run in range(10):
+    input = pd.read_csv('../data/complete.csv')
 
-(x_train, y_train), (x_test, y_test), preprocessing = text.texts_from_df(train_df=input,
-                                            text_column='sentence', label_columns='label', preprocess_mode='bert',
-                                            val_pct=0.15, max_features=10000, maxlen=75)
+    (x_train, y_train), (x_test, y_test), preprocessing = text.texts_from_df(train_df=input,
+                                                text_column='sentence', label_columns='label', preprocess_mode='bert',
+                                                val_pct=0.15, max_features=10000, maxlen=75)
 
-model = text.text_classifier(name='bert', train_data=(x_train, y_train), preproc=preprocessing)
+    model = text.text_classifier(name='bert', train_data=(x_train, y_train), preproc=preprocessing)
 
-learner = ktrain.get_learner(model=model, train_data=(x_train, y_train), val_data=(x_test, y_test), batch_size=16)
+    learner = ktrain.get_learner(model=model, train_data=(x_train, y_train), val_data=(x_test, y_test), batch_size=16)
 
-learner.fit_onecycle(lr=2e-5, epochs=5)
+    learner.fit_onecycle(lr=2e-5, epochs=5)
 
-learner.save_model('models/bert.learner.5.save')
-predictor = ktrain.get_predictor(model=learner.model, preproc=preprocessing)
-predictor.save('models/bert.predictor.5.save')
+    learner.save_model('models/bert.learner.5.' + str(index_run) + '.save')
+    predictor = ktrain.get_predictor(model=learner.model, preproc=preprocessing)
+    predictor.save('models/bert.predictor.5.' + str(index_run) + '.save')
