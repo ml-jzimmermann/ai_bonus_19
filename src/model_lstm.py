@@ -3,12 +3,20 @@ import numpy as np
 
 
 input = pd.read_csv('../data/complete.csv')
-texts = input['sentence'].values
+texts = input['sentence']
 labels = input['label'].values
 
 # preprocessing text
 stop_list = 'the to and i a of that is in you for it have he my with was are on but be this so not'.split()
 
+def remove_stopwords(text):
+    text = text.split(' ')
+    for word in text:
+        if word in stop_list:
+            text.remove(word)
+    return (' ').join(text)
+
+texts = texts.values
 # tokenization
 from keras.preprocessing.text import Tokenizer
 from keras.preprocessing.sequence import pad_sequences
@@ -16,6 +24,9 @@ max_words = 10000
 max_length = 75
 tokenizer = Tokenizer(num_words=max_words)
 tokenizer.fit_on_texts(texts)
+sequences = tokenizer.texts_to_sequences(texts)
+texts = tokenizer.sequences_to_texts(sequences)
+texts = list(map(remove_stopwords, texts))
 sequences = tokenizer.texts_to_sequences(texts)
 sequences = pad_sequences(sequences, maxlen=max_length, padding='pre', value=0.0)
 sequences = np.array(sequences)
@@ -67,8 +78,8 @@ model.compile(loss='categorical_crossentropy', optimizer='rmsprop', metrics=['ac
 print(model.summary())
 
 # show model
-# from keras.utils.vis_utils import plot_model
-# plot_model(model, to_file='../images/model_plot_lstm.png', show_shapes=True, show_layer_names=True)
+from keras.utils.vis_utils import plot_model
+plot_model(model, to_file='../images/model_plot_lstm.png', show_shapes=True, show_layer_names=True)
 
 # training
 model.fit(x=x_train, y=y_train, validation_data=(x_val, y_val), batch_size=16, epochs=20, class_weight=class_weight_dict)

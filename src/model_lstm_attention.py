@@ -90,7 +90,7 @@ from tensorflow.keras.utils import plot_model
 plot_model(model, to_file='../images/model_plot_lstm_norm_multi_attention_2.png', show_shapes=True, show_layer_names=True)
 
 # training
-model.fit(x=x_train, y=y_train, validation_data=(x_val, y_val), batch_size=16, epochs=100, class_weight=class_weight_dict)
+model.fit(x=x_train, y=y_train, validation_data=(x_val, y_val), batch_size=16, epochs=250, class_weight=class_weight_dict)
 
 # explain predictions
 # import seaborn as sn
