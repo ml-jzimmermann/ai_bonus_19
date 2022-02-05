@@ -1,6 +1,6 @@
 # AI Bonus Project WS 2019
 
-Train and compare different classifiers on a self-labeled emotion classification dataset.
+Train and compare different classifiers on a self-labeled emotion classification dataset. This project extends https://github.com/ml-jzimmermann/emotion-mining and adds the BERT transformer model.
 
 ![explanation_image](https://github.com/ml-jzimmermann/ai_bonus_19/blob/master/images/lstm_explanation.png)
 
