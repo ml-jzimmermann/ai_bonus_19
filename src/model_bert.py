@@ -9,7 +9,7 @@ import pandas as pd
 preprocessing = None
 learner = None
 model = None
-for index_run in range(10):
+for index_run in range(8,10):
     input = pd.read_csv('../data/complete_ktrain.csv')
 
     (x_train, y_train), (x_val, y_val), preprocessing = text.texts_from_df(train_df=input, text_column='sentence',
